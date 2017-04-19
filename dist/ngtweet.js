@@ -236,12 +236,12 @@ function TwitterWidget(ngTweetLogger, TwitterWidgetFactory) {
 (function() {
 'use strict';
 
-TwitterWidgetFactory.$inject = ["$document", "$http", "ngTweetLogger", "twitterWidgetURL", "$q", "$window"];
+TwitterWidgetFactory.$inject = ["$document", "$http", "ngTweetLogger", "twitterWidgetURL", "$q", "$window", "$rootScope"];
 angular
     .module('ngtweet')
     .factory('TwitterWidgetFactory', TwitterWidgetFactory);
 
-function TwitterWidgetFactory($document, $http, ngTweetLogger, twitterWidgetURL, $q, $window) {
+function TwitterWidgetFactory($document, $http, ngTweetLogger, twitterWidgetURL, $q, $window, $rootScope) {
     var deferred;
     var statusRe = /.*\/status\/(\d+)/;
 
@@ -279,6 +279,7 @@ function TwitterWidgetFactory($document, $http, ngTweetLogger, twitterWidgetURL,
     }
 
     function onTweetRendered(event) {
+        $rootScope.$broadcast('Twitter:completeRendering');
         ngTweetLogger.debug('Tweet rendered', event.target.parentElement.attributes);
     }
 
